@@ -2,8 +2,8 @@
  * CS361 -- Homework 2
  * Divide and Conquer
  * 
- * @author 
- * @version
+ * @author maddyS
+ * @version 2024.10.3
  */
 public class HW2 {
 
@@ -53,6 +53,13 @@ public class HW2 {
         return max;
     }
 
+    /*
+     * contrary to its name, it does not always find most common in
+     * the whole array, rather, it will find the most common in each
+     * subarray. This is okay since, if there is fraud in the overall
+     * array, the fraudulent card must be the most common in at least
+     * one of the two subarrays.
+     */
     private static int findMostCommon(int[] array, int start, int end) {
         if (start == end) {
             return array[start];
