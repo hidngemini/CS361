@@ -36,9 +36,7 @@ public class HW2 {
       */
     private static int dopamine(int[] array, int start, int end) {
         // base case of length 1
-        if (start == end) {
-            return start;
-        }
+        if (start == end) return start;
 
         int mid = (start+end)/2;
         int max;
@@ -61,9 +59,7 @@ public class HW2 {
      * one of the two subarrays.
      */
     private static int findMostCommon(int[] array, int start, int end) {
-        if (start == end) {
-            return array[start];
-        }
+        if (start == end) return array[start];
 
         int mid = (start+end)/2;
 
@@ -79,9 +75,7 @@ public class HW2 {
     private static int countInstancesOf(int elt, int[] array, int start, int end) {
         int count = 0;
         for (int i = start; i < end; i++) {
-            if (equivalent(elt, array[i])) {
-                count++;
-            }
+            if (equivalent(elt, array[i])) count++;
         }
         return count;
     }
