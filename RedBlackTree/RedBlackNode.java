@@ -123,6 +123,7 @@ public class RedBlackNode<T extends Comparable<T>> {
     }
 
     protected void insert(T value) {
+        this.depth = -1; // reset depth when inserting
         if (value.compareTo(this.value) < 0) {
             if (this.leftChild == null) {
                 this.leftChild = new RedBlackNode(value, true);
@@ -137,6 +138,19 @@ public class RedBlackNode<T extends Comparable<T>> {
             }
         }
         this.selfCorrect();
+    }
+
+    protected boolean contains(T value) {
+        if (this.value.equals(value)) {
+            return this.value.equals(value);
+        }
+        if (value.compareTo(this.value) > 0 && this.rightChild != null) {
+            return this.rightChild.contains(value);
+        } else if (value.compareTo(this.value) < 0 && this.leftChild != null) {
+            return this.leftChild.contains(value);
+        } else {
+            return false;
+        }
     }
 
     /*

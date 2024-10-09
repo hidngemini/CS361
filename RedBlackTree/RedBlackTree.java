@@ -15,6 +15,10 @@ public class RedBlackTree<T extends Comparable<T>> {
         }
     }
 
+    public boolean contains(T value) {
+        return this.root.contains(value);
+    }
+
     public int getDepth() {
         return this.root.getDepth();
     }
@@ -82,11 +86,17 @@ public class RedBlackTree<T extends Comparable<T>> {
     public static void main(String[] args) {
         RedBlackTree myTree = new RedBlackTree(30);
         myTree.insert(18);
+        System.out.println(myTree);
         myTree.insert(46);
+        System.out.println(myTree);
         myTree.insert(72);
+        System.out.println(myTree);
         myTree.insert(100);
+        System.out.println(myTree);
         myTree.insert(91);
+        System.out.println(myTree);
         myTree.insert(5);
+        System.out.println(myTree);
         myTree.insert(95);
         System.out.println(myTree);
     }
