@@ -142,7 +142,7 @@ public class RedBlackNode<T extends Comparable<T>> {
 
     protected boolean contains(T value) {
         if (this.value.equals(value)) {
-            return this.value.equals(value);
+            return true;
         }
         if (value.compareTo(this.value) > 0 && this.rightChild != null) {
             return this.rightChild.contains(value);
