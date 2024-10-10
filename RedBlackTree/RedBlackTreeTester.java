@@ -113,5 +113,22 @@ class RedBlackTreeTester {
         assertEquals(100, rbtree1.getRoot().getRightChild().getRightChild().getData());
         assertEquals(5, rbtree1.getRoot().getLeftChild().getLeftChild().getLeftChild().getData());
     }
+
+    @Test
+    void testContains() {
+        RedBlackTree rbtree1 = new RedBlackTree(30);
+        rbtree1.insert(18);
+        rbtree1.insert(46);
+        rbtree1.insert(72);
+        rbtree1.insert(100);
+        assertTrue(rbtree1.contains(30));
+        assertTrue(rbtree1.contains(18));
+        assertTrue(rbtree1.contains(46));
+        assertTrue(rbtree1.contains(72));
+        assertTrue(rbtree1.contains(100));
+        assertFalse(rbtree1.contains(-1));
+        assertFalse(rbtree1.contains(101));
+        assertFalse(rbtree1.contains(0));
+    }
 }
 
