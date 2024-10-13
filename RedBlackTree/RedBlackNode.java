@@ -6,7 +6,7 @@ public class RedBlackNode<T extends Comparable<T>> {
     private boolean colour; // true = red
     private RedBlackNode<T> leftChild;
     private RedBlackNode<T> rightChild;
-    private int depth = -1;
+    private transient int depth = -1;
 
     public RedBlackNode(T data, boolean colour, RedBlackNode<T> leftChild, RedBlackNode<T> rightChild) {
         this.value = data;
@@ -150,6 +150,114 @@ public class RedBlackNode<T extends Comparable<T>> {
             return this.leftChild.contains(value);
         } else {
             return false;
+        }
+    }
+
+    protected RedBlackNode<T> remove(T value) throws Exception {
+        RedBlackNode toReturn;
+        if (value.compareTo(this.value) == 0) {
+            // goal
+            if (this.leftChild == null && this.rightChild == null) {
+                toReturn = null;
+            } else if (this.rightChild == null) {
+                toReturn = this.leftChild;
+            } else if (this.leftChild == null) {
+                throw new Exception("your red black tree sucks idiot this isn't supposed to happen");
+            } else {
+                if (this.leftChild.getColour()) {
+                    // red left child
+                    RedBlackNode<T> pred = this.getPredecessor();
+                    T tempPredValue = (T) pred.getData();
+                    pred.setData(this.getData());
+                    this.setData(tempPredValue);
+                    if (!this.leftChild.getColour()) {
+                        this.colourFlip();
+                    } 
+                    this.leftChild = this.leftChild.remove(pred.getData());
+                    toReturn = this;
+                } else if (this.rightChild.getColour()){
+                    throw new Exception("your red black tree sucks idiot this isn't supposed to happen");
+                } else {
+                    // both black
+                    RedBlackNode<T> pred = this.getPredecessor();
+                    T tempPredValue = (T) pred.getData();
+                    pred.setData(this.getData());
+                    this.setData(tempPredValue);
+                    if (!this.leftChild.getColour()) {
+                        this.colourFlip();
+                    } 
+                    this.leftChild = this.leftChild.remove(pred.getData());
+                    toReturn = this;
+                }
+            }
+        } else if (value.compareTo(this.value) > 0) {
+            // right
+            if (this.leftChild == null && this.rightChild == null) {
+                toReturn = this;
+            } else if (this.rightChild == null) {
+                toReturn = this;
+            } else if (this.leftChild == null) {
+                throw new Exception("your red black tree sucks idiot this isn't supposed to happen");
+            } else {
+                if (this.leftChild.getColour()) {
+                    // red left child
+                    this.rotateRight();
+                } else if (this.rightChild.getColour()){
+                    throw new Exception("your red black tree sucks idiot this isn't supposed to happen");
+                } else {
+                    // both black
+                    this.colourFlip();
+                }
+            }
+            this.rightChild = this.rightChild.remove(value);
+            toReturn = this;
+        } else {
+            // left
+            if (this.leftChild == null && this.rightChild == null) {
+                toReturn = this;
+            } else if (this.rightChild == null) {
+                toReturn = this.leftChild.remove(value);
+            } else if (this.leftChild == null) {
+                throw new Exception("your red black tree sucks idiot this isn't supposed to happen");
+            } else {
+                if (this.leftChild.getColour()) {
+                    // red left child
+                    // all good; keep going
+                } else if (this.rightChild.getColour()){
+                    throw new Exception("your red black tree sucks idiot this isn't supposed to happen");
+                } else {
+                    // both black
+                    this.colourFlip();
+                }
+            }
+            this.leftChild = this.leftChild.remove(value);
+            toReturn = this;
+        }
+        // weird edge case
+        if (toReturn != null && toReturn.rightChild != null && toReturn.rightChild.getColour() 
+        && toReturn.rightChild.leftChild != null && toReturn.rightChild.getColour()) {
+            toReturn.rightChild.rotateLeft();
+            toReturn.rotateLeft();
+        }
+        if (toReturn != null) {
+            toReturn.selfCorrect();
+        }
+        return toReturn;
+    }
+
+    protected RedBlackNode<T> getPredecessor() {
+        if (this.leftChild != null) {
+            return this.leftChild.getMax();
+        } else {
+            return null;
+        }
+    }
+
+    protected RedBlackNode<T> getMax() {
+        if (this.rightChild != null) {
+            return this.rightChild.getMax();
+        } else {
+            return this;
         }
     }
 

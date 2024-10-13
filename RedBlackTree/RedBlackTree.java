@@ -15,6 +15,14 @@ public class RedBlackTree<T extends Comparable<T>> {
         }
     }
 
+    public void remove(T value) throws Exception {
+        this.root.changeColour();
+        this.root = this.root.remove(value);
+        if (this.root.getColour()) {
+            this.root.changeColour();
+        }
+    }
+
     public boolean contains(T value) {
         return this.root.contains(value);
     }
@@ -83,7 +91,7 @@ public class RedBlackTree<T extends Comparable<T>> {
     }
     
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         RedBlackTree myTree = new RedBlackTree(30);
         myTree.insert(18);
         System.out.println(myTree);
@@ -98,6 +106,10 @@ public class RedBlackTree<T extends Comparable<T>> {
         myTree.insert(5);
         System.out.println(myTree);
         myTree.insert(95);
+        System.out.println(myTree);
+        myTree.remove(95);
+        System.out.println(myTree);
+        myTree.remove(72);
         System.out.println(myTree);
     }
 }
