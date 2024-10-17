@@ -67,7 +67,7 @@ public class PriorityQueue {
 		this.swap(0, this.heap.size()-1);
 		this.location.remove(this.heap.get(this.heap.size()-1).element);
 		this.heap.remove(this.heap.size()-1);
-		this.pushDown(0);
+		this.pushDownRoot();
 		if (this.isEmpty()) {
 			return -1;
 		}
