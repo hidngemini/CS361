@@ -2,7 +2,7 @@ package RedBlackTree;
 
 public class RedBlackNode<T extends Comparable<T>> {
     
-    private T value;
+    private T value;    
     private boolean colour; // true = red
     private RedBlackNode<T> leftChild;
     private RedBlackNode<T> rightChild;
@@ -155,6 +155,14 @@ public class RedBlackNode<T extends Comparable<T>> {
 
     protected RedBlackNode<T> remove(T value) throws Exception {
         RedBlackNode toReturn;
+
+        // weird edge case
+        if (this != null && this.rightChild != null && this.rightChild.getColour() 
+        && this.rightChild.leftChild != null && this.rightChild.getColour()) {
+            this.rightChild.rotateLeft();
+            this.rotateLeft();
+        }
+
         if (value.compareTo(this.value) == 0) {
             // goal
             if (this.leftChild == null && this.rightChild == null) {
@@ -232,12 +240,6 @@ public class RedBlackNode<T extends Comparable<T>> {
             }
             this.leftChild = this.leftChild.remove(value);
             toReturn = this;
-        }
-        // weird edge case
-        if (toReturn != null && toReturn.rightChild != null && toReturn.rightChild.getColour() 
-        && toReturn.rightChild.leftChild != null && toReturn.rightChild.getColour()) {
-            toReturn.rightChild.rotateLeft();
-            toReturn.rotateLeft();
         }
         if (toReturn != null) {
             toReturn.selfCorrect();

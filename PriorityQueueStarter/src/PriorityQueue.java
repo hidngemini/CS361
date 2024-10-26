@@ -208,7 +208,7 @@ public class PriorityQueue {
 		int leftIndex = left(startIndex);
 		int leftPriority = this.heap.get(leftIndex).priority;
 		int rightIndex = right(startIndex);
-		if (rightIndex < this.heap.size()) {
+		if (rightIndex < this.heap.size()) { // check if there is a right child
 			int rightPriority = this.heap.get(rightIndex).priority;
 			if (currentPriority > leftPriority || currentPriority > rightPriority) {
 				if (leftPriority < rightPriority) {
@@ -219,7 +219,7 @@ public class PriorityQueue {
 					return this.pushDown(rightIndex);
 				}
 			}
-		} else {
+		} else { // only child is left
 			if (currentPriority > leftPriority) {
 				this.swap(startIndex, leftIndex);
 				return this.pushDown(leftIndex);

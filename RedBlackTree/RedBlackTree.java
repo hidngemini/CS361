@@ -2,24 +2,36 @@ package RedBlackTree;
 
 public class RedBlackTree<T extends Comparable<T>> {
     
-    private RedBlackNode<T> root;
+    public RedBlackNode<T> root;
 
     public RedBlackTree(T rootValue) {
         this.root = new RedBlackNode<T>(rootValue, false);
     }
 
+    public RedBlackTree() {
+        this.root = null;
+    }
+
     public void insert(T value) {
-        this.root.insert(value);
-        if (this.root.getColour()) {
-            this.root.changeColour();
+        if (this.root == null) {
+            this.root = new RedBlackNode<T>(value, false);
+        } else {
+            this.root.insert(value);
+            if (this.root.getColour()) {
+                this.root.changeColour();
+            }
         }
     }
 
     public void remove(T value) throws Exception {
-        this.root.changeColour();
-        this.root = this.root.remove(value);
-        if (this.root.getColour()) {
+        if (this.root == null || this.root.getLeftChild() == null && this.root.getRightChild() == null) {
+            this.root = null;
+        } else {
             this.root.changeColour();
+            this.root = this.root.remove(value);
+            if (this.root.getColour()) {
+                this.root.changeColour();
+            }
         }
     }
 
@@ -110,6 +122,10 @@ public class RedBlackTree<T extends Comparable<T>> {
         myTree.remove(95);
         System.out.println(myTree);
         myTree.remove(72);
+        System.out.println(myTree);
+        myTree.remove(91);
+        System.out.println(myTree);
+        myTree.remove(46);
         System.out.println(myTree);
     }
 }
