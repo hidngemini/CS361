@@ -36,18 +36,13 @@ public class GraphAlgorithms {
         while (!pq.isEmpty()) {
             int u = pq.pop();
             for (int v : graph.getNeighbors(u)) {
-                if (dist[u] == Integer.MAX_VALUE) {
-                    System.out.println(u);
-                }
+                System.out.println("elt " + u + "adj " + v);
                 int altDistance = dist[u] + 1;
                 if (altDistance < dist[v]) {
                     dist[v] = altDistance;
                     prev[v] = u;
-                    System.out.println(v);
-                    System.out.println(dist[v]);
-                    System.out.println(altDistance);
                     if (pq.isPresent(v)) { // avoids breaking pq for cycles
-                        pq.changePriority(v, altDistance);
+                        pq.changePriority(altDistance, v);
                     }
                 }
             }

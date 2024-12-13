@@ -104,14 +104,14 @@ public class DataLoader {
 			input.readLine(); //read the header line
 			
 			
-			String line = input.readLine();						
+			String line = input.readLine();		
+							
 			while(line != null) {
 				String[] fields = line.split(",");
 				assert(fields.length == 4);
 
 				// The format of each line in the ratings file is:
 				// userId, movieId, rating, timestamp
-				
 				int userId = -1, movieId = -1;
 				double rating = -1;
 				try {
