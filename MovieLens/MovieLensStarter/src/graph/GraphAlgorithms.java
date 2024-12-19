@@ -2,10 +2,55 @@ package graph;
 
 import util.PriorityQueue;
 
+/**
+ * Floyd Warshall and Dijkstra's implementations
+ * 
+ * @author maddyS
+ * @version 16.12.24
+ */
 public class GraphAlgorithms {
 
     public static int[][] floydWarshall(Graph<Integer> graph){
-    	return null;
+        int numVertices = graph.numVertices();
+
+        int[][] currentDistance = new int[numVertices][numVertices];
+        int[][] previousDistance = new int[numVertices][numVertices];
+
+        // fill adjacency matrix
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
+                if (graph.edgeExists(i, j)) {
+                    currentDistance[i][j] = 1;
+                } else if (i==j) {
+                    currentDistance[i][j] = 0;
+                } else {
+                    currentDistance[i][j] = Integer.MAX_VALUE;
+                }
+            }
+        }
+
+        // iterate through possible intermediate nodes
+        for (int k = 0; k < numVertices; k++) {
+            // put old current into previous and put previous into current (data in current gets overwritten)
+            int[][] prevPointer = previousDistance;
+            previousDistance = currentDistance;
+            currentDistance = prevPointer;
+
+            // iterate through every combination of vertices
+            for (int i = 0; i < numVertices; i++) {
+                for (int j = 0; j < numVertices; j++) {
+                    int altDistance;
+                    if (previousDistance[i][k] != Integer.MAX_VALUE && previousDistance[k][j] != Integer.MAX_VALUE) {
+                        altDistance = previousDistance[i][k] + previousDistance[k][j]; // compute alt distance
+                    } else {
+                        altDistance = Integer.MAX_VALUE; // avoid overflow if either are MAX_VALUE
+                    }
+                    currentDistance[i][j] = Math.min(altDistance, previousDistance[i][j]); // choose shorter distance
+                }
+            }
+        }
+
+    	return currentDistance;
     }
     
     // assumes all vertices are numbered 0-n consecutive (which they will be for the movielensanalyzer)
@@ -36,7 +81,6 @@ public class GraphAlgorithms {
         while (!pq.isEmpty()) {
             int u = pq.pop();
             for (int v : graph.getNeighbors(u)) {
-                System.out.println("elt " + u + "adj " + v);
                 int altDistance = dist[u] + 1;
                 if (altDistance < dist[v]) {
                     dist[v] = altDistance;
@@ -49,25 +93,5 @@ public class GraphAlgorithms {
         }
 
         return prev;
-    }
-
-    public static void main(String[] args) throws Exception {
-        // test dijkstra
-        Graph<Integer> graph = new Graph<Integer>();
-        graph.addVertex(0);
-        graph.addVertex(1);
-        graph.addVertex(2);
-        graph.addVertex(3);
-        graph.addEdge(0,1);
-        graph.addEdge(0,2);
-        graph.addEdge(2,3);
-        int[] prev = dijkstrasAlgorithm(graph, 0);
-        for (int i : prev) {
-            System.out.print(i);
-            System.out.print(" ");
-        }
-        System.out.println();
-
-        // probably test floyd warshall
     }
 }
